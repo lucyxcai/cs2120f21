@@ -13,6 +13,13 @@ this question that makes it much easier to answer than it might
 at first appear.
 -/
 
+/-
+If w and z are both objects of the same type and w = z, then by the axiom of 
+substitutability of equals and using the fact that w = z, we can rewrite w in the 
+goal as z, yielding z = z as our new proof goal. But this is true by the axiom of 
+reflexivity of equality. QED.
+-/
+
 /- #2
 Give a formal statement of the conjecture (proposition) from
 #1 by filling in the "hole" in the following definition. The
@@ -22,7 +29,7 @@ all propositions in Lean).
 -/
 
 def prop_1 : Prop := 
-  _
+  ∀ (T : Type) (w z : T), w = z → z = w :=
 
 /- #3 (extra credit)
 Give a formal proof of the proposition from #2 by filling in
@@ -33,7 +40,10 @@ again, called eq.refl, eq.subst, eq.symm, eq.trans.
 
 theorem prop_1_proof : prop_1 := 
 begin
-  _
+  assume (T : Type), 
+	assume (w z : T), 
+	assume (e : w = z), 
+	rw e, 
 end
 
 /-
@@ -47,12 +57,30 @@ what do you do? (I'm being a little informal in leaving out the
 type of X.) 
 -/
 
+/-
+  The introduction rule for ∀ is the substitutability of equals rule. To prove
+  that for all objects x, it has property P, you must prove that there is an 
+  object x of that type that has property P and therefore by the 
+  substitutability of equals rule all objects of the same type
+  have property P. 
+-/
+
 /- #5
 Suppose you have a proof, let's call it pf, of the proposition,
 (∀ x, P x), and you need a proof of P t, for some particular t.
 Write an expression then uses the elimination rule for ∀ to get
 such a proof. Complete the answer by replacing the underscores
 in the following expression: ( _ _ ). 
+-/
+
+/-
+def pf: Prop :=
+  ∀ (T : Type), 
+    (P : T → Prop), 
+    (x t : T), 
+    (e : x = t),
+    (px : P x),
+  P t
 -/
 
 /-
@@ -76,7 +104,11 @@ Hint: put parenthesis around "n + 1" in your answer.
 -/
 
 def successor_of_even_is_odd : Prop := 
-  _
+  ∀ (n : ℕ)
+  apply ev n,
+  return (n+1)
+
+
 
 /- #7
 Suppose that "its_raining" and "the_streets_are_wet" are
@@ -88,7 +120,7 @@ by filling in the hole
 
 axioms (raining streets_wet : Prop)
 
-axiom if_raining_then_streets_wet : _
+axiom if_raining_then_streets_wet : Prop := raining → streets_wet
   
 
 /- #9
@@ -101,8 +133,7 @@ you are asked to use the elimination rule for →.
 
 axiom pf_raining : raining
 
-example : streets_wet :=
- _
+example : streets_wet := pf_raining → streets_wet
 
 /- 
 AND: ∧
@@ -149,6 +180,7 @@ theorem and_associative :
 begin
   intros P Q R h,
   have p : P := and.elim_left h,
+  
 end
 
 /- #11
@@ -162,12 +194,11 @@ proof, let's call it p_qr, of (P ∧ (Q ∧ R)) [by
 application of ∧ and → introduction.] What now
 remains to be proved is ((P ∧ Q) ∧ R). We can
 construct a proof of this proposition by applying
-_____ to a proof of (P ∧ Q) and a proof of R.
+and_commutative to a proof of (P ∧ Q) and a proof of R.
 What remains, then, is to obtain these proofs.
 But this is easily done by the application of
-____ to ____. QED. 
+and_associative to a proof of P and a proof of Q ∧ R. QED. 
 -/
-
 
 /-
 Note that Lean includes versions of these
@@ -179,3 +210,9 @@ the definitions we give in this file.
 -/
 #check @and.comm
 #check @and.assoc
+
+/-
+end
+-/
+
+-- HI THERE!
