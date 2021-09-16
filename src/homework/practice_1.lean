@@ -1,5 +1,7 @@
 /-
-EQUALITY
+NA - worked alone
+gew6rm@virginia.edu 
+https://github.com/lucyxcai/lucycai2120.git
 -/
 
 /- #1 
