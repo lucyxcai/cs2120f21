@@ -177,12 +177,15 @@ proof script.
 -/
 
 theorem and_associative : 
-  ∀ (P Q R : Prop),
-  (P ∧ (Q ∧ R)) → ((P ∧ Q) ∧ R) :=
+  ∀ (P Q R : Prop),
+  (P ∧ (Q ∧ R)) → ((P ∧ Q) ∧ R) :=
 begin
-  intros P Q R h,
-  have p : P := and.elim_left h,
-  
+  assume P Q R h,
+  have p : P := and.elim_left h,
+  have qr : Q ∧ R := and.elim_right h,
+  have q : Q := and.elim_left qr,
+  have r : R := and.elim_right qr,
+  exact and.intro (and.intro p q) r,
 end
 
 /- #11
@@ -196,10 +199,10 @@ proof, let's call it p_qr, of (P ∧ (Q ∧ R)) [by
 application of ∧ and → introduction.] What now
 remains to be proved is ((P ∧ Q) ∧ R). We can
 construct a proof of this proposition by applying
-and_commutative to a proof of (P ∧ Q) and a proof of R.
+and.intro to a proof of (P ∧ Q) and a proof of R.
 What remains, then, is to obtain these proofs.
 But this is easily done by the application of
-and_associative to a proof of P and a proof of Q ∧ R. QED. 
+and.elim to p_qr. QED. 
 -/
 
 /-
