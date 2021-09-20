@@ -152,19 +152,43 @@ end
 
 example : ∀ (P : Prop), P ∨ true ↔ true := 
 begin
-  
+  assume P,
+  assume true,
+  apply iff.intro _ _,
+  assume porp,
+  apply or.elim porp,
+  assume p,
+  exact p,
+  assume p, 
+  exact p,
+  assume p,
+  exact or.intro_left P p,
+
 end
 
 example : ∀ (P : Prop), P ∨ false ↔ P := 
 begin
+  --No answer because false is never true there is no proof of false
 end
 
 example : ∀ (P : Prop), P ∧ true ↔ P := 
 begin
+  assume P,
+  assume true, 
+  apply iff.intro _ _,
+  assume pandp,
+  apply and.elim pandp,
+  assume p,
+  assume p,
+  exact p,
+  assume p,
+  exact and.intro p p,
+
 end
 
 example : ∀ (P : Prop), P ∧ false ↔ false := 
 begin
+    --No answer because false is never true there is no proof of false
 end
 
 
