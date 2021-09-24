@@ -15,12 +15,16 @@ this question that makes it much easier to answer than it might
 at first appear.
 -/
 
+<<<<<<< HEAD
 /-
 If w and z are both objects of the same type and w = z, then by the axiom of 
 substitutability of equals and using the fact that w = z, we can rewrite w in the 
 goal as z, yielding z = z as our new proof goal. But this is true by the axiom of 
 reflexivity of equality. QED.
 -/
+=======
+
+>>>>>>> 36448287f7f33dcb7d4182fcc8163977e44bf41a
 
 /- #2
 Give a formal statement of the conjecture (proposition) from

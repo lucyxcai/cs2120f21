@@ -6,7 +6,11 @@ in the sense that they identify all the axioms
 and/or theorems that you use.
 -/
 
+<<<<<<< HEAD
 example : true := true.intro 
+=======
+example : true := true.intro
+>>>>>>> 36448287f7f33dcb7d4182fcc8163977e44bf41a
 
 example : false := _    -- trick question? why?
 
@@ -18,6 +22,7 @@ yes, there is no proof of false
 example : ∀ (P : Prop), P ∨ P ↔ P := 
 begin
   assume P, 
+<<<<<<< HEAD
 	apply iff.intro _ _,	
 	-- forward P∨P -> P
 		assume porp,
@@ -31,6 +36,21 @@ begin
 	-- backwards P -> P∨P	//assume P, then proof P∨P is true
 		assume p,	
 		exact or.intro_left P p, 	
+=======
+  apply iff.intro _ _,
+  -- forward
+    assume porp,
+    apply or.elim porp,
+    -- left disjunct is true
+      assume p,
+      exact p,
+    -- right disjunct is true
+      assume p,
+      exact p,
+  -- backwards
+    assume p,
+    exact or.intro_left P p,
+>>>>>>> 36448287f7f33dcb7d4182fcc8163977e44bf41a
 end
 
 example : ∀ (P : Prop), P ∧ P ↔ P := 
