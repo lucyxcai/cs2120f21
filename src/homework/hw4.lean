@@ -60,6 +60,24 @@ end
 -- 5
 theorem demorgan_1 : ∀ (P Q : Prop), ¬ (P ∧ Q) ↔ ¬ P ∨ ¬ Q :=
 begin
+    assume P Q,
+    apply or.elim (em P),
+    (assume Hp : P,
+    or.inr
+      (show ¬Q, from
+        assume Hq : Q,
+        H (and.intro Hp Hq)))
+  (assume Hp : ¬P,
+    or.inl Hp)
+
+/-
+assume P Q, 
+    apply iff.intro _ _,
+    assume npandp,
+    have pornp := classical.em P,
+    cases pornp with pn pq,
+    apply and.elim npandp,
+-/
 end
 
 
