@@ -101,7 +101,7 @@ end
 
 -- 7
 theorem disappearing_opposite : 
-  ∀ (P Q : Prop), (P ∨ ¬P) ∧ Q ↔ P ∨ Q := 
+  ∀ (P Q : Prop), P ∨ ¬P ∧ Q ↔ P ∨ Q := 
 begin
     assume P Q, 
     apply iff.intro, 
@@ -130,24 +130,23 @@ theorem distrib_and_or :
 begin
   assume P Q R,
   apply iff.intro, 
+
   --forward
-  assume poqapor,
-  have poq := and.elim_left poqapor, 
-  have por := and.elim_right poqapor, 
-  have p := or.inl poq,
-  have q := or.inr poq, 
-  have p := or.inl por, 
-  have r := or.inr por,
-  exact or.inr (and.intro q r), --question
+  assume poqapor, 
+  have poq := poqapor.1, 
+  cases poq with p q, 
+    apply or.elim, 
+  have por := poqapor.2,
+  cases por with p r, 
+    apply or.elim, 
+  exact or.elim p (and.intro q r), 
   --backward
   assume poqar, 
-  have p := and.elim_left poqar, 
-  have qar := and.elim_right poqar, 
-  exact and.elim (or.inr poqar),
-  have q := and.elim_left qar,
-  have r := and.elim_right qar, 
-  exact and.intro (p q),
-  exact and.intro (p r),
+  have p := poqar.1,
+  have qar := poqar.2,
+  cases qar with q r, 
+  exact or.elim p q, 
+  exact or.elim p r,
 
 
 
