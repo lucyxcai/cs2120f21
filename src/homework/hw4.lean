@@ -60,37 +60,66 @@ end
 -- 5
 theorem demorgan_1 : ∀ (P Q : Prop), ¬ (P ∧ Q) ↔ ¬ P ∨ ¬ Q :=
 begin
-    assume P Q,
-    apply or.elim (em P),
-    (assume Hp : P,
-    or.inr
-      (show ¬Q, from
-        assume Hq : Q,
-        H (and.intro Hp Hq)))
-  (assume Hp : ¬P,
-    or.inl Hp)
-
-/-
-assume P Q, 
+    assume P Q, 
     apply iff.intro _ _,
-    assume npandp,
-    have pornp := classical.em P,
-    cases pornp with pn pq,
-    apply and.elim npandp,
--/
+    /- forward -/
+        assume npaq,
+        cases em P with p np,
+        cases em Q with q nq,
+        have f : false := npaq (and.intro p q),
+        exact false.elim f,
+        exact or.inr nq,
+        exact or.inl np,
+    /-backward-/
+        assume nponq,
+        assume paq,
+        cases nponq with np nq,
+        have p := paq.left,
+        have f : false := np p,
+        exact false.elim f,
+        have q := paq.right,
+        have f : false := nq q,
+        exact false.elim f,
+
 end
 
 
 -- 6
 theorem demorgan_2 : ∀ (P Q : Prop), ¬ (P ∨ Q) → ¬P ∧ ¬Q :=
 begin
+  assume P Q, 
+      assume npoq,
+      cases em P with p np,
+      have f : false := npoq (or.inl p),
+      exact false.elim f,
+      cases em Q with q nq,
+      have f : false := npoq (or.inr q),
+      exact false.elim f,
+      exact and.intro np nq,
 end
 
 
 -- 7
 theorem disappearing_opposite : 
-  ∀ (P Q : Prop), P ∨ ¬P ∧ Q ↔ P ∨ Q := 
+  ∀ (P Q : Prop), (P ∨ ¬P) ∧ Q ↔ P ∨ Q := 
 begin
+    assume P Q, 
+    apply iff.intro, 
+    --forward
+    assume ponpaq,
+    have pornp := ponpaq.1,
+    have q := ponpaq.2, 
+    cases pornp with p np, 
+    apply or.inl, 
+    exact and.intro p q, 
+    apply or.inr, 
+    exact and.intro np q, 
+    --backward
+    assume poq,
+    have p := poq.left,
+    exact or.inl p,
+
+
 end
 
 
@@ -99,7 +128,31 @@ theorem distrib_and_or :
   ∀ (P Q R: Prop), (P ∨ Q) ∧ (P ∨ R) ↔
                     P ∨ (Q ∧ R) :=
 begin
+  assume P Q R,
+  apply iff.intro, 
+  --forward
+  assume poqapor,
+  have poq := and.elim_left poqapor, 
+  have por := and.elim_right poqapor, 
+  have p := or.inl poq,
+  have q := or.inr poq, 
+  have p := or.inl por, 
+  have r := or.inr por,
+  exact or.inr (and.intro q r), --question
+  --backward
+  assume poqar, 
+  have p := and.elim_left poqar, 
+  have qar := and.elim_right poqar, 
+  exact and.elim (or.inr poqar),
+  have q := and.elim_left qar,
+  have r := and.elim_right qar, 
+  exact and.intro (p q),
+  exact and.intro (p r),
+
+
+
 end
+
 
 -- remember or is right associative
 -- you need this to know what the lefts and rights are
@@ -109,6 +162,15 @@ theorem distrib_and_or_foil :
   (P ∨ Q) ∧ (R ∨ S) ↔
   (P ∧ R) ∨ (P ∧ S) ∨ (Q ∧ R) ∨ (Q ∧ S) :=
 begin
+  assume P Q R S,
+  apply iff.intro, 
+  --forward
+  assume poqaros,
+  have poq := and.elim_left poqaros, 
+  have ros := and.elim_right poqaros, 
+  have p := or.inl poq,
+  have q := or.inr poq, --question 
+
 end
 
 
@@ -116,22 +178,40 @@ end
 Formally state and prove the proposition that
 not every natural number is equal to zero.
 -/
-lemma not_all_nats_are_zero : _ :=
+lemma not_all_nats_are_zero : ∀(n : ℕ ), n =0 ∨ n ≠ 0 :=
 begin
+  assume n, 
+  apply or.intro_left,
+  assumption, --question
 end 
 
 -- 11. equivalence of P→Q and (¬P∨Q)
 example : ∀ (P Q : Prop), (P → Q) ↔ (¬P ∨ Q) :=
 begin
+  assume P Q p q,
+  apply iff.intro, 
+  show ¬P ∨ Q, 
+  from ⟨ np, q ⟩, --question
+
 end
 
 -- 12
 example : ∀ (P Q : Prop), (P → Q) → (¬ Q → ¬ P) :=
 begin
+  assume P Q, 
+  assume pimq,
+  assume nqimnp, 
+  exact pimq,
+  exact nqimnp, --question
 end
 
 -- 13
 example : ∀ (P Q : Prop), ( ¬P → ¬Q) → (Q → P) :=
 begin
+  assume P Q,
+  assume npnq,
+  assume qimp, 
+  exact npnq, 
+  exact qimp,
 end
 
