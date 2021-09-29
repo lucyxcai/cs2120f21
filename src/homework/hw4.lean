@@ -103,22 +103,29 @@ end
 theorem disappearing_opposite : 
   ∀ (P Q : Prop), P ∨ ¬P ∧ Q ↔ P ∨ Q := 
 begin
-    assume P Q, 
-    apply iff.intro, 
-    --forward
-    assume ponpaq,
-    have pornp := ponpaq.1,
-    have q := ponpaq.2, 
-    cases pornp with p np, 
-    apply or.inl, 
-    exact and.intro p q, 
-    apply or.inr, 
-    exact and.intro np q, 
-    --backward
-    assume poq,
-    have p := poq.left,
-    exact or.inl p,
+  assume P Q,
+  apply iff.intro _ _,
+  assume PonPaQ,
+  apply or.elim PonPaQ,
+  assume p,
+  apply or.intro_left Q, 
+  exact p, 
 
+  assume nPaQ,
+  apply and.elim nPaQ,
+  assume nP,
+  assume q,
+  apply or.intro_right P,
+  exact q,
+
+  assume porq,
+  apply or.elim porq, 
+  assume p,
+  apply or.intro_left,
+  exact p,
+
+  assume q, 
+  apply or.intro_left,
 
 end
 
@@ -168,10 +175,37 @@ begin
   have poq := and.elim_left poqaros, 
   have ros := and.elim_right poqaros, 
   have p := or.inl poq,
-  have q := or.inr poq, --question 
+  have q := or.inr poq, 
+  have r := or.inl ros, 
+  have s := or.inr ros, 
+  exact or.elim (and.intro p r) (and.intro p s), 
+  exact or.elim (and.intro p s) (and.intro q r),
+  exact or.elim (and.intro q r) (and.intro q s),  
+  --backward
+  assume back, 
+  apply or.elim back, 
+  assume par, 
+  have p := par.left, 
+  have r := par.right, 
+  show (P ∨ Q) ∧ (R ∨ S), 
+  from ⟨and.elim_left p, and.elim_right r⟩, 
+  assume pas, 
+  have p := par.left, 
+  have s := par.right, 
+  show (P ∨ Q) ∧ (R ∨ S), 
+  from ⟨and.elim_left p, and.elim_right s⟩, 
+  assume qar, 
+  have q := par.left, 
+  have r := par.right, 
+  show (P ∨ Q) ∧ (R ∨ S), 
+  from ⟨and.elim_left q, and.elim_right r⟩, 
+  assume qas, 
+  have q := par.left, 
+  have s := par.right, 
+  show (P ∨ Q) ∧ (R ∨ S), 
+  from ⟨and.elim_left q, and.elim_right s⟩, 
 
 end
-
 
 /- 10
 Formally state and prove the proposition that
@@ -179,9 +213,9 @@ not every natural number is equal to zero.
 -/
 lemma not_all_nats_are_zero : ∀(n : ℕ ), n =0 ∨ n ≠ 0 :=
 begin
-  assume n, 
-  apply or.intro_left,
-  assumption, --question
+  assume h, 
+  have f : false := (or.inl h),
+  exact false.elim (f),
 end 
 
 -- 11. equivalence of P→Q and (¬P∨Q)
@@ -190,7 +224,7 @@ begin
   assume P Q p q,
   apply iff.intro, 
   show ¬P ∨ Q, 
-  from ⟨ np, q ⟩, --question
+  from ⟨ np, q ⟩, 
 
 end
 
