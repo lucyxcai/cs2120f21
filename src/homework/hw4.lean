@@ -135,26 +135,22 @@ theorem distrib_and_or :
   ∀ (P Q R: Prop), (P ∨ Q) ∧ (P ∨ R) ↔
                     P ∨ (Q ∧ R) :=
 begin
-  assume P Q R,
-  apply iff.intro, 
+assume e,
+apply iff.intro,
+    have pq := and.elim_left e,
+    apply or.elim pq,
+    assume p,
+    apply or.inl p,
+    have pr := and.elim_right e,
 
-  --forward
-  assume poqapor, 
-  have poq := poqapor.1, 
-  cases poq with p q, 
-    apply or.elim, 
-  have por := poqapor.2,
-  cases por with p r, 
-    apply or.elim, 
-  exact or.elim p (and.intro q r), 
-  --backward
-  assume poqar, 
-  have p := poqar.1,
-  have qar := poqar.2,
-  cases qar with q r, 
-  exact or.elim p q, 
-  exact or.elim p r,
-
+    apply or.elim pr,
+    assume p,
+    assume q,
+    apply or.inl p,
+    assume r,
+    assume q,
+    have qr := and.intro q r,
+    apply or.inr qr,
 
 
 end
