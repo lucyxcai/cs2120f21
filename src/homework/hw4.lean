@@ -103,30 +103,30 @@ end
 theorem disappearing_opposite : 
   ∀ (P Q : Prop), P ∨ ¬P ∧ Q ↔ P ∨ Q := 
 begin
-  assume P Q,
+  assume P Q,
   apply iff.intro _ _,
-  assume PonPaQ,
-  apply or.elim PonPaQ,
+  assume pnpq,
+  apply or.elim pnpq,
   assume p,
-  apply or.intro_left Q, 
-  exact p, 
-
-  assume nPaQ,
-  apply and.elim nPaQ,
-  assume nP,
+  apply or.inl p,
+  
+  assume npq,
+  apply and.elim npq,
+  assume np,
   assume q,
-  apply or.intro_right P,
-  exact q,
+  apply or.inr q,
 
-  assume porq,
-  apply or.elim porq, 
+  assume pq,
+  apply or.elim pq,
   assume p,
-  apply or.intro_left,
-  exact p,
+  apply or.inl p,
 
-  assume q, 
-  apply or.intro_left,
-
+  assume q,
+  cases em P with p np,
+  apply or.inl p,
+  have pq := and.intro np q,
+  apply or.inr pq,
+  
 end
 
 
