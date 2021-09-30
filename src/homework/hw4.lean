@@ -164,72 +164,68 @@ theorem distrib_and_or_foil :
   (P ∨ Q) ∧ (R ∨ S) ↔
   (P ∧ R) ∨ (P ∧ S) ∨ (Q ∧ R) ∨ (Q ∧ S) :=
 begin
-    assume P Q R S,
-  apply iff.intro _ _,
-  assume pqrs,
-  have pq := and.elim_left pqrs,
-  have rs := and.elim_right pqrs,
-  apply or.elim pq,
-  assume p,
-  apply or.elim rs,
-  assume r,
+  assume P Q R S, 
+  apply iff.intro, 
+  assume poqaros, 
+  have poq := poqaros.left,
+  have ros := poqaros.2, 
 
-  apply or.inl,
-  exact and.intro p r,
+  cases poq, 
+  cases ros, 
+  apply or.inl, 
+  exact and.intro poq ros, 
 
-  assume s,
-  apply or.inr,
-  apply or.inl,
-  exact and.intro p s,
+  apply or.inr, 
+  apply or.inl, 
+  exact and.intro poq ros, 
 
-  assume q,
-  apply or.elim rs,
-  assume r,
-  apply or.inr,
-  apply or.inr,
-  apply or.inl,
-  exact and.intro q r,
+  cases ros, 
+  apply or.inr, 
+  apply or.inr, 
+  apply or.inl,
+  exact and.intro poq ros, 
 
-  assume s,
-  apply or.inr,
-  apply or.inr,
-  apply or.inr,
-  exact and.intro q s,
+  apply or.inr, 
+  apply or.inr, 
+  apply or.inr, 
+  exact and.intro poq ros, 
 
+  --backwards
 
-  assume h1,
-  apply or.elim h1,
-  assume pr,
-  have p := and.elim_left pr,
-  have r := and.elim_right pr,
-  apply and.intro,
-  exact or.inl p,
-  exact or.inl r,
+  assume h, 
+  apply or.elim h, 
+  assume par, 
+  have p := par.1, 
+  have r := par.2, 
 
-  assume h2,
-  apply or.elim h2,
-  assume ps,
-  have p := and.elim_left ps,
-  have s := and.elim_right ps,
-  apply and.intro,
-  exact or.inl p,
-  exact or.inr s,
+  apply and.intro,
+  exact or.inl p, 
+  exact or.inl r, 
 
-  assume h3,
-  apply or.elim h3,
-  assume qr,
-  have q := and.elim_left qr,
-  have r := and.elim_right qr,
-  apply and.intro,
-  exact or.inr q,
-  exact or.inl r,
-  
-  assume h4,
-  have q := and.elim_left h4,
-  have s := and.elim_right h4,
-  apply and.intro,
-  exact or.inr q,
-  exact or.inr s,
+  assume h1, 
+  apply or.elim h1,
+  assume pas, 
+  have p := pas.1,
+  have s := pas.2, 
+  apply and.intro, 
+  exact or.inl p, 
+  exact or.inr s, 
+  
+  assume h2, 
+  apply or.elim h2,  
+  assume qar, 
+  have q := qar.1, 
+  have r := qar.2, 
+  apply and.intro,
+  exact or.inr q, 
+  exact or.inl r, 
+
+  assume qas, 
+  have q := and.elim_left qas, 
+  have s := and.elim_right qas, 
+  apply and.intro,
+  exact or.inr q, 
+  exact or.inr s, 
 
 end
 
@@ -237,11 +233,11 @@ end
 Formally state and prove the proposition that
 not every natural number is equal to zero.
 -/
-lemma not_all_nats_are_zero : ∀(n : ℕ ), n =0 ∨ n ≠ 0 :=
+lemma not_all_nats_are_zero : ¬ (∀ (n : ℕ ), (n=0)) :=
 begin
-  assume h, 
-  have f : false := (or.inl h),
-  exact false.elim (f),
+  assume e, 
+  have oez := e 1, 
+  contradiction, 
 end 
 
 -- 11. equivalence of P→Q and (¬P∨Q)
