@@ -164,42 +164,72 @@ theorem distrib_and_or_foil :
   (P ∨ Q) ∧ (R ∨ S) ↔
   (P ∧ R) ∨ (P ∧ S) ∨ (Q ∧ R) ∨ (Q ∧ S) :=
 begin
-  assume P Q R S,
-  apply iff.intro, 
-  --forward
-  assume poqaros,
-  have poq := and.elim_left poqaros, 
-  have ros := and.elim_right poqaros, 
-  have p := or.inl poq,
-  have q := or.inr poq, 
-  have r := or.inl ros, 
-  have s := or.inr ros, 
-  exact or.elim (and.intro p r) (and.intro p s), 
-  exact or.elim (and.intro p s) (and.intro q r),
-  exact or.elim (and.intro q r) (and.intro q s),  
-  --backward
-  assume back, 
-  apply or.elim back, 
-  assume par, 
-  have p := par.left, 
-  have r := par.right, 
-  show (P ∨ Q) ∧ (R ∨ S), 
-  from ⟨and.elim_left p, and.elim_right r⟩, 
-  assume pas, 
-  have p := par.left, 
-  have s := par.right, 
-  show (P ∨ Q) ∧ (R ∨ S), 
-  from ⟨and.elim_left p, and.elim_right s⟩, 
-  assume qar, 
-  have q := par.left, 
-  have r := par.right, 
-  show (P ∨ Q) ∧ (R ∨ S), 
-  from ⟨and.elim_left q, and.elim_right r⟩, 
-  assume qas, 
-  have q := par.left, 
-  have s := par.right, 
-  show (P ∨ Q) ∧ (R ∨ S), 
-  from ⟨and.elim_left q, and.elim_right s⟩, 
+    assume P Q R S,
+  apply iff.intro _ _,
+  assume pqrs,
+  have pq := and.elim_left pqrs,
+  have rs := and.elim_right pqrs,
+  apply or.elim pq,
+  assume p,
+  apply or.elim rs,
+  assume r,
+
+  apply or.inl,
+  exact and.intro p r,
+
+  assume s,
+  apply or.inr,
+  apply or.inl,
+  exact and.intro p s,
+
+  assume q,
+  apply or.elim rs,
+  assume r,
+  apply or.inr,
+  apply or.inr,
+  apply or.inl,
+  exact and.intro q r,
+
+  assume s,
+  apply or.inr,
+  apply or.inr,
+  apply or.inr,
+  exact and.intro q s,
+
+
+  assume h1,
+  apply or.elim h1,
+  assume pr,
+  have p := and.elim_left pr,
+  have r := and.elim_right pr,
+  apply and.intro,
+  exact or.inl p,
+  exact or.inl r,
+
+  assume h2,
+  apply or.elim h2,
+  assume ps,
+  have p := and.elim_left ps,
+  have s := and.elim_right ps,
+  apply and.intro,
+  exact or.inl p,
+  exact or.inr s,
+
+  assume h3,
+  apply or.elim h3,
+  assume qr,
+  have q := and.elim_left qr,
+  have r := and.elim_right qr,
+  apply and.intro,
+  exact or.inr q,
+  exact or.inl r,
+  
+  assume h4,
+  have q := and.elim_left h4,
+  have s := and.elim_right h4,
+  apply and.intro,
+  exact or.inr q,
+  exact or.inr s,
 
 end
 
@@ -217,29 +247,57 @@ end
 -- 11. equivalence of P→Q and (¬P∨Q)
 example : ∀ (P Q : Prop), (P → Q) ↔ (¬P ∨ Q) :=
 begin
-  assume P Q p q,
-  apply iff.intro, 
-  show ¬P ∨ Q, 
-  from ⟨ np, q ⟩, 
+  assume P Q,
+  apply iff.intro _ _,
+  assume e,
+  cases em Q with q nq,
+  apply or.inr q,
+
+  apply or.intro_left,
+  cases em P with p np,
+  have q := (e p),
+  contradiction,
+
+  assume p,
+  contradiction,
+
+  assume e2,
+  apply or.elim e2,
+  assume np,
+  assume p,
+  contradiction,
+
+  assume q,
+  assume p,
+  exact q,
 
 end
 
 -- 12
 example : ∀ (P Q : Prop), (P → Q) → (¬ Q → ¬ P) :=
 begin
-  assume P Q, 
-  assume pimq,
-  assume nqimnp, 
-  exact pimq,
-  exact nqimnp, --question
+  assume P Q,
+  assume e, 
+  assume nq,
+  assume p,
+  cases em Q with q nq, 
+  contradiction,
+
+  have q := (e p),
+  contradiction,
 end
 
 -- 13 (c)
 example : ∀ (P Q : Prop), ( ¬P → ¬Q) → (Q → P) :=
 begin
-  assume P Q,
-  assume npnq,
-  assume q, 
-  
+  assume P Q,
+  assume h,
+  assume q,
+
+  cases em P with p np,
+  exact p,
+
+  have nq := (h np),
+  contradiction,
 end
 
