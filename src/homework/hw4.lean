@@ -234,13 +234,12 @@ begin
   exact nqimnp, --question
 end
 
--- 13
+-- 13 (c)
 example : ∀ (P Q : Prop), ( ¬P → ¬Q) → (Q → P) :=
 begin
   assume P Q,
   assume npnq,
-  assume qimp, 
-  exact npnq, 
-  exact qimp,
+  assume q, 
+  
 end
 
