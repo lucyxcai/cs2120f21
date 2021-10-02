@@ -243,7 +243,7 @@ end
 -- 11. equivalence of P→Q and (¬P∨Q)
 example : ∀ (P Q : Prop), (P → Q) ↔ (¬P ∨ Q) :=
 begin
-  assume P Q,
+  assume P Q,
   apply iff.intro _ _,
   assume e,
   cases em Q with q nq,
@@ -266,8 +266,8 @@ begin
   assume q,
   assume p,
   exact q,
-
 end
+
 
 -- 12
 example : ∀ (P Q : Prop), (P → Q) → (¬ Q → ¬ P) :=
