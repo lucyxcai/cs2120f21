@@ -35,7 +35,11 @@ all propositions in Lean).
 -/
 
 def prop_1 : Prop := 
+<<<<<<< HEAD:src/homework/practice_1.lean
   ∀ (T : Type) (w z : T), w = z → z = w :=
+=======
+  ∀ (T : Type) (x y z w : T), x = y → y = z → w = z → z = w
+>>>>>>> 289938d4d64bfdbe1db71208069fe4a3145149fc:src/homework/hw1and2.lean
 
 /- #3 (extra credit)
 Give a formal proof of the proposition from #2 by filling in
@@ -46,10 +50,16 @@ again, called eq.refl, eq.subst, eq.symm, eq.trans.
 
 theorem prop_1_proof : prop_1 := 
 begin
+<<<<<<< HEAD:src/homework/practice_1.lean
   assume (T : Type), 
 	assume (w z : T), 
 	assume (e : w = z), 
 	rw e, 
+=======
+  assume T x y z w,
+  assume xy yz zw,
+  exact eq.symm zw,
+>>>>>>> 289938d4d64bfdbe1db71208069fe4a3145149fc:src/homework/hw1and2.lean
 end
 
 /-
@@ -64,12 +74,18 @@ type of X.)
 -/
 
 /-
+<<<<<<< HEAD:src/homework/practice_1.lean
   The introduction rule for ∀ is the substitutability of equals rule. To prove
   that for all objects x, it has property P, you must prove that there is an 
   object x of that type that has property P and therefore by the 
   substitutability of equals rule all objects of the same type
   have property P. 
 -/
+=======
+Assume you;re given an arbitrary but specific x, show that 
+it satisfies P;  because the choice  was arbirtrary, P must be
+true of any x (you could have picked any of them!)-/
+>>>>>>> 289938d4d64bfdbe1db71208069fe4a3145149fc:src/homework/hw1and2.lean
 
 /- #5
 Suppose you have a proof, let's call it pf, of the proposition,
@@ -78,6 +94,26 @@ Write an expression then uses the elimination rule for ∀ to get
 such a proof. Complete the answer by replacing the underscores
 in the following expression: ( _ _ ). 
 -/
+
+
+axioms 
+(Ball : Type)
+(blue : Ball → Prop)
+(allBallsBlue : ∀ (b : Ball), blue b)
+(tomsBall : Ball)
+
+theorem tomsBallIsBlue : blue tomsBall := 
+  allBallsBlue tomsBall
+
+#check allBallsBlue
+
+example : ∀ (P Q : Prop), P ∧ Q → Q ∧ P :=
+begin
+  assume P Q h,
+  have p : P := h.left,
+  have q : Q := h.right,
+  exact and.intro q p,
+end
 
 /-
 def pf: Prop :=
@@ -110,11 +146,15 @@ Hint: put parenthesis around "n + 1" in your answer.
 -/
 
 def successor_of_even_is_odd : Prop := 
+<<<<<<< HEAD:src/homework/practice_1.lean
   ∀ (n : ℕ)
   apply ev n,
   return (n+1)
 
 
+=======
+  ∀ (n : ℕ), ev n → odd (n + 1)
+>>>>>>> 289938d4d64bfdbe1db71208069fe4a3145149fc:src/homework/hw1and2.lean
 
 /- #7
 Suppose that "its_raining" and "the_streets_are_wet" are
@@ -126,7 +166,11 @@ by filling in the hole
 
 axioms (raining streets_wet : Prop)
 
+<<<<<<< HEAD:src/homework/practice_1.lean
 axiom if_raining_then_streets_wet : Prop := raining → streets_wet
+=======
+axiom if_raining_then_streets_wet : raining → streets_wet
+>>>>>>> 289938d4d64bfdbe1db71208069fe4a3145149fc:src/homework/hw1and2.lean
   
 
 /- #9
@@ -139,7 +183,12 @@ you are asked to use the elimination rule for →.
 
 axiom pf_raining : raining
 
+<<<<<<< HEAD:src/homework/practice_1.lean
 example : streets_wet := pf_raining → streets_wet
+=======
+example : streets_wet :=
+ if_raining_then_streets_wet pf_raining
+>>>>>>> 289938d4d64bfdbe1db71208069fe4a3145149fc:src/homework/hw1and2.lean
 
 /- 
 AND: ∧
@@ -184,12 +233,18 @@ theorem and_associative :
   ∀ (P Q R : Prop),
   (P ∧ (Q ∧ R)) → ((P ∧ Q) ∧ R) :=
 begin
+<<<<<<< HEAD:src/homework/practice_1.lean
   assume P Q R h,
   have p : P := and.elim_left h,
   have qr : Q ∧ R := and.elim_right h,
   have q : Q := and.elim_left qr,
   have r : R := and.elim_right qr,
   exact and.intro (and.intro p q) r,
+=======
+  intros P Q R h,
+  have p : P := and.elim_left h,
+  have q : Q := (and.elim_right h).left
+>>>>>>> 289938d4d64bfdbe1db71208069fe4a3145149fc:src/homework/hw1and2.lean
 end
 
 /- #11

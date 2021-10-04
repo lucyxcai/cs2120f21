@@ -21,6 +21,7 @@ yes, there is no proof of false
 
 example : ∀ (P : Prop), P ∨ P ↔ P := 
 begin
+<<<<<<< HEAD:src/homework/practice_2.lean
   assume P, 
 <<<<<<< HEAD
 	apply iff.intro _ _,	
@@ -51,6 +52,8 @@ begin
     assume p,
     exact or.intro_left P p,
 >>>>>>> 36448287f7f33dcb7d4182fcc8163977e44bf41a
+=======
+>>>>>>> 289938d4d64bfdbe1db71208069fe4a3145149fc:src/homework/hw3.lean
 end
 
 example : ∀ (P : Prop), P ∧ P ↔ P := 
