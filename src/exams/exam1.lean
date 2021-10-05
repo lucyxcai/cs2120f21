@@ -194,14 +194,14 @@ axioms
   -- formalizee the following assumptions here
   -- (1) Lynn is a person
   -- (2) Lynn knows logic
-  -- add answer here
-  -- add answer here
+  -- (3) A person who knows logic is a better computer scientist
+  -- (4) Lynn is better at CS
 
 /-
 Now, formally state and prove the proposition that
 Lynn is a better computer scientist
 -/
-example : _ := _
+example : --question
 
 
 
@@ -217,7 +217,7 @@ Lean's definition of not.
 -/
 
 namespace hidden
-def not (P : Prop) := _ -- fill in the placeholder
+def not (P : Prop) := P → false -- fill in the placeholder, question
 end hidden
 
 /-
@@ -226,7 +226,14 @@ of "proof by negation." Explain how one uses this
 strategy to prove a proposition, ¬P. 
 -/
 
--- answer here
+/- --answer
+The proof strategy of proof by negation is essentially the
+introduction rule for false, and one can use this strategy to 
+prove a proposition ¬P by first assuming a proof of P 
+and showing that you can construct a proof of false, or ¬P. 
+In other words, this strategy takes a proof of P and returns
+a proof of false, which is a proof of ¬P. 
+-/
 
 /-
 Explain precisely in English the "proof strategy"
@@ -236,15 +243,15 @@ the lack of a ¬ in front of the P).
 
 Fill in the blanks the following partial answer:
 
-To prove P, assume ____ and show that __________.
-From this derivation you can conclude __________.
-Then you apply the rule of negation ____________
+To prove P, assume ¬P and show that ¬P→false.
+From this derivation you can conclude ¬¬P.
+Then you apply the rule of negation elimination
 to that result to arrive a a proof of P. We have
 seen that the inference rule you apply in the 
 last step is not constructively valid but that it
-is __________ valid, and that accepting the axiom
-of the __________ suffices to establish negation
-__________ (better called double _____ _________)
+is classically valid, and that accepting the axiom
+of the excluded middle suffices to establish negation
+elimination (better called double negation elimination)
 as a theorem.
 -/
 
@@ -274,10 +281,22 @@ that iff has both elim_left and elim_right
 rules, just like ∧.
 -/
 
-example : _ :=
+example : ∀ (P Q : Prop), (P↔Q) → P → Q :=
 begin
-_
+  assume P Q, 
+  assume PQ, 
+  show P → Q, 
+  from iff.elim_left PQ,  
 end
+example : ∀ (P Q : Prop), (P↔Q) → (Q↔P) :=
+begin
+  assume P Q, 
+  assume PQ, 
+  cases PQ with pq qp, 
+  apply iff.intro, 
+  exact qp, 
+  exact pq,
+end --question
 
 
 /- 
@@ -315,7 +334,7 @@ def ELJL : Prop :=
 example : ELJL :=
 begin
   _
-end
+end --question
 
 
 
@@ -325,11 +344,14 @@ If every car is either heavy or light, and red or
 blue, and we want a prove by cases that every car 
 is rad, then: 
 
--- how many cases will need to be considered? __
+-- how many cases will need to be considered? 4
 -- list the cases (informaly)
-    -- answer here
+- car is heavy and red 
+- car is heavy and blue
+- car is light and red
+- car is light and blue 
 
--/
+-/ --question
 
 /-
   *********
@@ -358,10 +380,10 @@ the terms means.)
 -/
 
 def eq_is_symmetric : Prop :=
-  ∀ (T : Type) (x y : T), _
+  ∀ (T : Type) (x y : T), x=y→y=x
 
 def eq_is_transitive : Prop :=
-  _
+  ∀ (T : Type) (x y z : T), x=y → y=z → x=z
 
 
 /-
@@ -380,8 +402,11 @@ both directions.
 -/
 
 def negelim_equiv_exmid : Prop := 
-  _
-
+  ∀ (P : Prop), ¬¬P→P →  P ∨ ¬P
+  begin
+    assume h, 
+  end
+--question
 
 /- 
 EXTRA CREDIT: Formally express and prove the
@@ -392,4 +417,4 @@ thre is someone who loves everyone. [5 points]
 
 axiom Loves : Person → Person → Prop
 
-example : _ := _
+example :  := _--question
