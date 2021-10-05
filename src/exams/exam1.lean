@@ -41,18 +41,22 @@ rule for →.
 
 (P Q : Prop) (p2q : P → Q) (p : P)
 ----------------------------------
-     [replace with answer]
+      (p2q p) : Q
 -/
 
 -- Give a formal proof of the following
 example : ∀ (P Q : Prop) (p2q : P → Q) (p : P), Q :=
 begin
-  _
+  assume P Q,
+  assume pq, 
+  assume p, 
+  show Q, 
+  from pq p, 
 end
 
 -- Extra credit [2 points]. Who invented this principle?
 
-
+-- James Womack
 
 -- -------------------------------------
 
@@ -72,7 +76,7 @@ inference rule notation.
 Give a brief English language explanation of
 the introduction rule for true.
 
--- answer here
+-- The introduction rule for true gives us a proof of true without conditions
 
 ELIMINATION
 
@@ -87,7 +91,10 @@ there's no use for an elimination rule.
 
 -- Give a formal proof of the following:
 
-example : true := _
+example : true := 
+begin
+  exact true.intro,
+end 
 
 
 -- -------------------------------------
@@ -109,7 +116,7 @@ Given an English language description of
 this inference rule. What does it really
 say, in plain simple English. 
 
--- answer here
+-- The introduction rule for ∧ derives a proof of P and Q from a proof of P and a proof of Q
 
 ELIMINATION
 
@@ -122,7 +129,12 @@ Formally state and prove the theorem that,
 for any propositions P and Q,  Q ∧ P → P. 
 -/
 
-example : _ := _
+example : ∀ (P Q : Prop), Q ∧ P →P := 
+begin
+  assume P Q, 
+  assume qap, 
+  apply and.elim_right qap, 
+end
 
 
 -- -------------------------------------
@@ -137,7 +149,11 @@ T is any type (such as nat) and Q is any proposition
 given type), how do you prove ∀ (t : T), Q? What is
 the introduction rule for ∀?
 
--- answer here
+-- The introduction rule for ∀ states that the predicate 
+Q is true for any value t of type T. It assumes an arbritary 
+value t of type T and shows that the predicate Q is true 
+for that assumed value. Since the value is arbitrary, this 
+predicate Q is thus true for all values of type T. 
 
 ELIMINATION
 
@@ -148,9 +164,13 @@ what it says.
 
 (T : Type) (Q : Prop), (pf : ∀ (t : T), Q) (t : T)
 -------------------------------------------------- elim
-                [Replace with answer]
+                (pf t) :  Q t
 
--- English language answer here
+-- ∀ elimination says that if a predicate Q is true for all 
+values of type T, then this predicate must also be true
+for a specific value t of type T. Thus, this problem 
+shows that given a proof pf of ∀ T Q and a proof t : T, 
+we can conclude Q
 
 Given a proof, (pf : ∀ (t : T), Q), and a value, (t : T),
 briefly explain in English how you *use* pf to derive a
