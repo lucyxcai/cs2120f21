@@ -25,8 +25,12 @@ begin
   -- ¬P → false
   -- (P → false) → false
   assume h,
-  have f := h p,
-  exact f,
+  contradiction, 
+  /- contradiction instead of 
+  have f := h p, 
+  exact f, 
+  -/
+  
 end 
 
 -- We might need classical (vs constructive) reasoning 
@@ -52,19 +56,51 @@ begin
   assume h,
   have pornp := classical.em P,
   cases pornp with p pn,
-  assumption,
+  assumption, 
   contradiction,
 end
 
 -- 5
 theorem demorgan_1 : ∀ (P Q : Prop), ¬ (P ∧ Q) ↔ ¬ P ∨ ¬ Q :=
 begin
+    assume P Q, 
+    apply iff.intro,  -- split, 
+    assume npaq, 
+    cases em P with p np, 
+    cases em Q with q nq, 
+    have f : false := npaq (and.intro p q),
+    exact false.elim f, 
+    apply or.inr nq, 
+    apply or.inl np, 
+
+    assume nponq, 
+    assume paq, 
+    cases nponq with np nq, 
+    have p := paq.1, 
+    have f : false := np p, 
+    exact false.elim f, 
+    have q := paq.2, 
+    have f : false := nq q, 
+    exact false.elim f, 
+
+
 end
 
 
 -- 6
 theorem demorgan_2 : ∀ (P Q : Prop), ¬ (P ∨ Q) → ¬P ∧ ¬Q :=
 begin
+  assume P,
+  assume Q,
+  assume npoq, 
+  cases em P with p np, 
+  have f : false := npoq (or.inl p), 
+  exact false.elim f, 
+  cases em Q with q nq, 
+  have f : false := npoq (or.inr q), 
+  exact false.elim f, 
+  exact and.intro np nq, 
+
 end
 
 
@@ -72,6 +108,18 @@ end
 theorem disappearing_opposite : 
   ∀ (P Q : Prop), P ∨ ¬P ∧ Q ↔ P ∨ Q := 
 begin
+  assume P Q, 
+  split, 
+  assume ponpaq, 
+  cases ponpaq with p npaq, 
+  exact or.inl p, 
+  have np := npaq.1, 
+  have q := npaq.2, 
+  exact or.inr q, 
+  assume poq, 
+  cases poq with p q, 
+  exact or.inl p, 
+  cases em P with p np, 
 end
 
 
