@@ -169,14 +169,15 @@ what it says.
 -- ∀ elimination says that if a predicate Q is true for all 
 values of type T, then this predicate must also be true
 for a specific value t of type T. Thus, this problem 
-shows that given a proof pf of ∀ T Q and a proof t : T, 
+shows that given a proof pf of ∀ T, Q and a proof t : T, 
 we can conclude Q
 
 Given a proof, (pf : ∀ (t : T), Q), and a value, (t : T),
 briefly explain in English how you *use* pf to derive a
 proof of Q.
 
--- answer here
+-- If you have a proof pf of ∀ T, Q and a value t : T, 
+then you can use ∀ elimination to conclude Q. 
 -/
 
 /-
