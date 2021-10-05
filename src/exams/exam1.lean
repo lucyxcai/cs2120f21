@@ -201,7 +201,11 @@ axioms
 Now, formally state and prove the proposition that
 Lynn is a better computer scientist
 -/
-example : --question
+example : ∀ (p : Person), KnowsLogic p → BetterComputerScientist p :=
+begin
+  assume p, 
+  exact LogicMakesYouBetterAtCS p,  
+end--question
 
 
 
