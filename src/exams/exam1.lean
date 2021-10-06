@@ -340,16 +340,12 @@ Talented, then all objects of type Person like this Person.
 -/
 example : ELJL :=
 begin
-  intros Person Nice Talented Likes,
-  intros elantp, 
-  intros p, 
-  intros nat, 
-  intros allPeople,
-  have Nice := nat.1, 
-  have Talented := nat.2, 
-  have p := Person, 
-  
-end --question
+  assume p, 
+  intros, 
+  apply elantp, 
+  exact JLNT.1, 
+  exact JLNT.2,
+end 
 
 
 
