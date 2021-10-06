@@ -120,8 +120,18 @@ say, in plain simple English.
 
 ELIMINATION
 
-Given the elimination rules for ∧ in both
+Give the elimination rules for ∧ in both
 inference rule and English language forms.
+
+Inference rule: 
+( P Q: Prop ) (pq : P ∧ Q)
+--------------------------- and.elim_left
+          p : P
+( P Q: Prop ) (pq : P ∧ Q)
+--------------------------- and.elim_right
+          q : Q
+English: The elimination rule for ∧ provides a proof of P and a proof of Q using and.elim_left
+and and.elim_right, respectively, given a proof of P ∧ Q. 
 -/
 
 /-
