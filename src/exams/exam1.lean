@@ -56,7 +56,7 @@ end
 
 -- Extra credit [2 points]. Who invented this principle?
 
--- James Womack
+-- Theophrastus
 
 -- -------------------------------------
 
@@ -194,20 +194,22 @@ axioms
   -- formalizee the following assumptions here
   -- (1) Lynn is a person
   -- (2) Lynn knows logic
-  -- (3) A person who knows logic is a better computer scientist
-  -- (4) Lynn is better at CS
+(Lynn : Person)
+(LynnLogic : KnowsLogic Lynn)
 
 /-
 Now, formally state and prove the proposition that
 Lynn is a better computer scientist
 -/
-example : ∀ (p : Person), KnowsLogic p → BetterComputerScientist p :=
-begin
-  assume p, 
-  exact LogicMakesYouBetterAtCS p,  
-end--question
 
-
+example : (∃ (Lynn : Person), KnowsLogic Lynn) → (∃ (Lynn : Person), (BetterComputerScientist Lynn)) :=
+begin 
+  assume h,
+  cases h with p pk,
+  apply exists.intro p, 
+  apply LogicMakesYouBetterAtCS p, 
+  exact pk, 
+end
 
 -- -------------------------------------
 
@@ -221,7 +223,7 @@ Lean's definition of not.
 -/
 
 namespace hidden
-def not (P : Prop) := P → false -- fill in the placeholder, question
+def not (P : Prop) := P → false -- fill in the placeholder
 end hidden
 
 /-
@@ -285,13 +287,7 @@ that iff has both elim_left and elim_right
 rules, just like ∧.
 -/
 
-example : ∀ (P Q : Prop), (P↔Q) → P → Q :=
-begin
-  assume P Q, 
-  assume PQ, 
-  show P → Q, 
-  from iff.elim_left PQ,  
-end
+
 example : ∀ (P Q : Prop), (P↔Q) → (Q↔P) :=
 begin
   assume P Q, 
@@ -300,7 +296,7 @@ begin
   apply iff.intro, 
   exact qp, 
   exact pq,
-end --question
+end 
 
 
 /- 
@@ -362,7 +358,7 @@ is rad, then:
 - car is light and red
 - car is light and blue 
 
--/ --question
+-/ 
 
 /-
   *********
@@ -411,13 +407,29 @@ the correct proposition, 2 points for proving it
 in one direction and five points for proving it
 both directions. 
 -/
+open classical
+#check em 
 
-def negelim_equiv_exmid : Prop := 
-  ∀ (P : Prop), ¬¬P→P →  P ∨ ¬P
+def negelim_equiv_exmid : Prop :=
+  ∀ (P : Prop), (¬¬P→P) ↔  (P ∨ ¬P) 
+  
+example : negelim_equiv_exmid :=
   begin
-    assume h, 
+    assume P,
+    apply iff.intro, 
+    --forward
+    assume nnp, 
+    cases em P with p np, 
+    exact or.inl p, 
+    exact or.inr np, 
+    --backward
+    assume pornp, 
+    assume nnp,
+    cases em P with p np, 
+    exact p,
+    contradiction,
+
   end
---question
 
 /- 
 EXTRA CREDIT: Formally express and prove the
@@ -428,4 +440,10 @@ thre is someone who loves everyone. [5 points]
 
 axiom Loves : Person → Person → Prop
 
-example :  := _--question
+example : (∃ (p : Person), ∀ (ev : Person), Loves ev p) → (∃ (p : Person), ∀ (e : Person), Loves p e) := 
+begin 
+  assume h, 
+  cases h with p evl, 
+  apply exists.intro p, 
+  assume e,
+end
