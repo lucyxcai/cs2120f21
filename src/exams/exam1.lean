@@ -345,6 +345,10 @@ begin
   intros p, 
   intros nat, 
   intros allPeople,
+  have Nice := nat.1, 
+  have Talented := nat.2, 
+  have p := Person, 
+  
 end --question
 
 
