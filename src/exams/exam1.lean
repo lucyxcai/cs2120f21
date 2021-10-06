@@ -334,10 +334,17 @@ def ELJL : Prop :=
     (JLNT : Nice JohnLennon ∧ Talented JohnLennon),
     (∀ (p : Person), Likes p JohnLennon) 
     
-
+/- English rendition:
+For all objects of type Person, if the Person is Nice and
+Talented, then all objects of type Person like this Person.
+-/
 example : ELJL :=
 begin
-  _
+  intros Person Nice Talented Likes,
+  intros elantp, 
+  intros p, 
+  intros nat, 
+  intros allPeople,
 end --question
 
 
