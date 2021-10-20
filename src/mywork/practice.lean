@@ -168,5 +168,13 @@ def evens : set ℕ := { n | n%2 = 0}
 
 example : ({ 0, 2 } : set ℕ) ⊆ evens := --for all natural numbers, if n is in this set then its in that set too
 begin
-  
+  --show ∀ n, n=0 ∨ n=2 →n ∈ evens, 
+   assume n, 
+   assume h,
+   cases h, 
+   rewrite h, 
+   exact rfl, --proof by reflexivity, prove evens applied to 0 is true (0 mod 0 = 0)
+   cases h, 
+   exact rfl, 
+   
 end

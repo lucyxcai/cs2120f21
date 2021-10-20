@@ -22,7 +22,7 @@ begin
   /-
   unfold evens,
   show {n : ℕ | n % 2 = 0} 0,
-  show 0 % 0 = 0,
+  show 0 % 2 = 0,
   -/
   exact rfl,
   -- case: n = 2

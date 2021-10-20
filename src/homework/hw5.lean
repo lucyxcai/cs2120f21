@@ -52,7 +52,13 @@ function that maps/takes every α value that ...
 
 -- Give your formal proof here
 begin
-  _
+  assume n, 
+  assume h, 
+  cases n with w pf,
+  cases h with r pr, 
+  
+  
+  
 end
   
 
