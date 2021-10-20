@@ -163,3 +163,10 @@ end
 example : ∀ (P Q : Prop), ( ¬P → ¬Q) → (Q → P) :=
 begin
 end
+
+def evens : set ℕ := { n | n%2 = 0}
+
+example : ({ 0, 2 } : set ℕ) ⊆ evens := --for all natural numbers, if n is in this set then its in that set too
+begin
+  
+end
