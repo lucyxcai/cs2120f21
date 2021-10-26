@@ -1,8 +1,25 @@
 import data.set
-
+#check @set.ext 
 /-
 Exercise: Prove that for any set, L, L ∩ L = L.
 -/
+
+example : ∀ {α : Type} (L : set α), ((L ∩ L) = L) := 
+begin
+  intros α L, 
+  apply set.ext _,
+
+  assume x, 
+  split, 
+  
+  assume h, 
+  cases h with l r, 
+  exact l, 
+
+  assume j,
+  exact and.intro j j, 
+
+end 
 
 
 /-
