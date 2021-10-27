@@ -35,20 +35,27 @@ We will have a proof of L = X, with only the proof of ∀ x, x ∈ L ↔ x ∈ X
 to be produced.
 -/
 
-example : ∀ {α : Type} (L X : set α), L ⊆ X → ((L ∩ X) = L) := 
+example : ∀ {α : Type} (A B : set α), A ⊆ B → A ∪ B = B ∪ A :=
 begin
-  intros α L X h,
+  intros α A B h, 
   apply set.ext _,
-  assume x,
-  split,
-  -- forward
-  assume h,
-  cases h with l r,
-  exact l,
-  -- backward
-  assume k,
-  exact and.intro k (h k),
+  assume x, 
+  split, 
+  assume h, 
+  cases h with l r, 
+  apply or.inl, 
+  exact h l,
+  apply or.inl, 
+  exact r,
+  assume j, 
+  apply or.inr, 
+  cases j with l r, 
+  exact l, 
+  exact h r, 
+  
+
 end 
+
 
 /-
 Exercise: Prove that ⊆ is reflexive and transitive.
@@ -77,19 +84,33 @@ Give a formal statement, a formal proof, and an
 English language (informal) proof of this fact.
 -/
 
-example : ∀ {α : Type} (L M R : set α ),(L ∩ M) ∪ (M ∩ R) = M ∪ (L ∩ R) :=
+example : ∀ {α : Type} (A B C : set α), A⊆B →B⊆C→A⊆C→   (A ∪ B) ∪ C = A ∪ (B ∪ C) := 
 begin
-  intros α L M R, 
+  intros α A B C, 
+  assume a b c, 
   apply set.ext _,
   assume x, 
   split, 
   assume h, 
   cases h with l r, 
+  apply or.inr,
   apply or.inl, 
-  exact and.elim_right l, 
+  cases l, 
+  exact a l, 
+  exact l, 
   apply or.inr, 
-  apply and.intro,  --question
-end 
+  exact or.inr r, 
+  assume j, 
+  cases j with l r, 
+  apply or.inl, 
+  apply or.inl, 
+  exact l, 
+  apply or.inr, 
+  cases r with l rr, 
+  exact b l, 
+  exact rr, 
+
+end
 
 
 /-
@@ -139,9 +160,10 @@ Exercise: Formally state and prove both formally
 and informally that ∪ is left-distributive over ∩.
 -/
 
-example : ∀ {α : Type} (L M R : set α ), L ∪ (M ∩ R) = (L ∪ M) ∩ (L ∪ R) :=
+example : ∀ {α : Type} (L M R : set α ), L⊆M →M⊆R→L⊆R→ L ∪ (M ∩ R) = (L ∪ M) ∩ (L ∪ R) :=
 begin 
   intros α L M R, 
+  assume a b c, 
   apply set.ext _,
   assume x, 
   split, 
@@ -162,11 +184,14 @@ begin
   
   assume m, 
   cases m with l r, 
-  apply or.inl, 
-  cases l, 
-  exact l, 
-  cases r, 
-  exact r,--question
+  apply or.inr, 
+  apply and.intro,
+  cases l with ll rr, 
+  exact a ll, 
+  exact rr, 
+  cases r with nl nr, 
+  exact c nl, 
+  exact nr, 
 end
 
 /- 
