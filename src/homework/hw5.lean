@@ -57,8 +57,7 @@ after applying the function to each value in set p.
 
 -- Give your formal proof here
 begin
-  
-  assume h1,
+    assume h1,
 cases h1 with f e,
 assume h2,
 have e2 := exists_imp_exists e h2,
@@ -67,4 +66,5 @@ have b := f a,
 apply exists.intro b,
 end
   
+
 
