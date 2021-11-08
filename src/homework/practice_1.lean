@@ -222,3 +222,10 @@ end
 -/
 
 -- HI THERE!
+
+variables (α β γ : Type)
+
+def inverse (r : α →β → Prop) : β →α → Prop :=
+λ (b : β ) (a : α ), r a b --lambda
+
+def foo (r : α →β → Prop) (s : β → γ) :
