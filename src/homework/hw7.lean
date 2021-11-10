@@ -36,8 +36,14 @@ your answer (in English).
 -/
 example : (∃ (b : β), true) → asymmetric r → ¬reflexive r :=
 begin
+  unfold asymmetric reflexive, 
+  assume b asymm, 
+  assume refl, 
+  cases b with l rr, 
+  have rll : r l l := refl l, 
+  have neg := asymm rll, 
+  contradiction, 
 end
-
 
 
 /-
@@ -57,10 +63,19 @@ stuck, then you need to figure out an additional condition that needs
 to be added as a premise to make the proposition true. In that case,
 add the premise and then show that the updated conjecture is true.
 -/
-example : transitive r → reflexive r → ¬ asymmetric r :=
+example : (∃ (b : β), true) → transitive r → reflexive r → ¬ asymmetric r :=
 begin
-end
+  unfold transitive reflexive asymmetric, 
+  assume a, 
+  assume trans, 
+  assume refl,
+  assume asymm, 
+  cases a with l rr, 
+  have rll : r l l := refl l, 
+  have contra := asymm rll, 
+  contradiction, 
 
+end
 
 
 
@@ -76,7 +91,18 @@ example : ∀ (s : set β)
             s2 ⊆ s1 → 
             s1 = s2 :=
 begin
+  assume s s1 s2, 
+  assume s1in s2in, 
+  assume s1has s2has, 
+  apply set.ext _, 
+  assume b, 
+  apply iff.intro, 
+  assume bs1, 
+  exact s1has bs1, 
+  assume bs2, 
+  exact s2has bs2, 
 end
+
 
 
 /-
