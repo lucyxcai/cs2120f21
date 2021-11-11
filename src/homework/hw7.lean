@@ -1,4 +1,5 @@
 import data.set
+import tactic.ring
 
 namespace relation
 
@@ -113,6 +114,7 @@ definition of this relation.
 def divides (m n : ℕ) := ∃ k, n = k * m
 
 
+
 /- 
 #4: Formally and informally state and prove each of the following
 propositions. Remember that the ring tactic is useful for producing
@@ -125,21 +127,41 @@ into English. (Or if you wanted to be truly Hobbit-like you could say
 -- A: For any n, 1 divides n.
 example : ∀ n, divides 1 n :=
 begin
+  unfold divides, 
+  assume n, 
+  apply exists.intro n, 
+  ring,
+
 end
 
 -- B. For any n, n divides n
 example : ∀ n, divides n n :=
 begin
+    unfold divides, 
+    assume n, 
+    apply exists.intro 1, 
+    ring, 
 end
 
 -- #C. prove that divides is reflexive 
 example : reflexive divides :=
 begin
+  unfold reflexive divides, 
+  assume n, 
+  apply exists.intro 1, 
+  ring, 
 end 
 
 -- #D. prove that divides is transitive
 example : transitive divides :=
 begin
+  unfold transitive divides, 
+  assume a b c d e,
+  cases d with l r, 
+  cases e with ll rr, 
+  apply exists.intro (l*ll),
+  ring,
+
 end 
 
 /- 
@@ -148,13 +170,22 @@ give a counterexample and a brief explanation to show that
 it's not.
 -/
 
--- Answer here
+/-
+No, divides is not symmetric -- just because one number 'n' is divisible by 
+another, say 'm', does not mean that m is divisible by n. For example, 
+4 / 2 = 2 but 2 / 4 ≠ 2. 
+-/
 
 /- 
 #F. Prove that divides is antisymmetric. 
 -/
 example : anti_symmetric divides := 
 begin  
+  unfold anti_symmetric divides, 
+  assume a b c d, 
+  cases c with l r, 
+  cases d with ll rr, 
+  ring, 
 end
 
 
@@ -170,16 +201,31 @@ problems.
 -- A
 example : asymmetric r → irreflexive r :=
 begin
+  unfold asymmetric irreflexive, 
+  assume a b c,
+  have neg := a c, 
+  contradiction, 
 end
+
+-- If a relation is asymmetric, it does not imply irreflexivity
 
 -- B
 example : irreflexive r → transitive r → asymmetric r :=
 begin
+  unfold irreflexive transitive asymmetric, 
+  assume a b c d e f, 
+  have neg := a c, 
+  contradiction, 
+
 end
 
 -- C
 example : transitive r → ¬ symmetric r → ¬ irreflexive r :=
 begin
+  unfold transitive symmetric irreflexive, 
+  assume a b c,
+  
+
 end
 
 
