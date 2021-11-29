@@ -49,6 +49,19 @@ def mul : nat → nat → nat --multiply
 #reduce mul f t --8 = 4 * 2
 #reduce mul f f --16 = 4*4
 
+def sum_to : nat → nat 
+  (nat.zero) := nat.zero 
+  (nat.succ n') := add (sum_to n') (inc n') 
+
+def P : nat → Prop := 
+  n := (t nat.zero) * sum_to n = n * (n+1)
+
+theorem foo : ∀ (n : nat, P n)
+
+theorem sum_up_to (n : nat)
+
+
+
 
 
 
