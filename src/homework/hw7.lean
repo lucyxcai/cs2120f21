@@ -224,7 +224,7 @@ example : transitive r → ¬ symmetric r → ¬ irreflexive r :=
 begin
   unfold transitive symmetric irreflexive, 
   assume a b c,
-  
+
 
 end
 
