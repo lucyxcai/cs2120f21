@@ -63,19 +63,58 @@ And assuming 1 * n=n, we have 1 * succ(n) = 1 * n + 1 by the second defining cla
 
 Show that multiplication distributes over addition. In other words, prove that for natural numbers 𝑚, 𝑛, and 𝑘, 𝑚(𝑛+𝑘)=𝑚𝑛+𝑚𝑘. You should use the definitions of addition and multiplication and facts proved in Section 17.4 (but nothing more).
 
+For natural numbers 𝑚, 𝑛, and 𝑘,  𝑚(𝑛+𝑘)=𝑚𝑛+𝑚𝑘. 
+By induction on k. In the case where k=0, mn = mn. In the induction step, we have 
+m(n + succ(k)) = m (succ(n+k))
+= m * (n+k) + m 
+= mn  + mk + m 
+using the inductive hypothesis, second defining clause of addition, and the second defining clause of multiplication. 
+
 Prove the multiplication is associative, in the same way. You can use any of the facts proved in Section 17.4 and the previous exercise.
+
+For natural numbers m, n, and k, (𝑚𝑛)𝑘=𝑚(𝑛𝑘). 
+By induction on k. In the case where k = 0, 0=0 using the proposition in problem 10. In the induction step, we have
+(mn)succ(k) = mn * k + mn 
+= mnk + mn 
+= m (nk+1)
+using the inductive hypothesis, second defining clause of addition, and the second defining clause of multiplication. 
+
 
 Prove that multiplication is commutative.
 
+For natural numbers n and m, 𝑚𝑛=𝑛𝑚. 
+By induction on n. The base case can by implied using the proposition in problem 10. In the induction step, we have
+m*succ(n) = m * n + m
+= mn + m 
+= (n+1)m 
+= succ(n)m 
+using the inductive hypothesis, the proposition above, and the second defining clause of multiplication. 
+
 #3 (Extra Credit): #5 or #9
 
-Let 𝑉 be a non-empty set of integers such that the following two properties hold:
+prove Cassini’s identity: for every 𝑛, 𝐹^2_𝑛+1−𝐹_𝑛+2𝐹_𝑛=(−1)^𝑛. Hint: in the induction step, write 𝐹^2_𝑛+2 as 𝐹_𝑛+2(𝐹_𝑛+1+𝐹_𝑛)
+For n=1: 
+1 - (2)(1) = -1^1
+1 - 2 = -1
+-1 = -1 
+Holds true for n = 1. 
+In the induction step: 
+F_n*F_n+2 - F^2_n+1 = (-1)^n+1
+By the Fibonacci sequence rule, F_n+2 = F_n+1 + F_n, F_0=0, F_1=1
+F_n+1 = F_n + F_n-1
+∴ 
+F_n*F_n+2 - F^2_n+1 = F_n*(F_n+1 + F_n) - (F_n+-F_n-1)^2
+= Fn*F_n+1 + F^2_n -F^2_n -F^2_n-1 -2F_nF_n-1 
+= (F_n+ F_n-1)F_n -F^2_n-1 -2F_nF_n-1
+= F^2_n + F_nF_n-1 -F^2_n-1 -2F_nF_n-1
+= F^2_n - F_nF_n-1 -F^2_n-1 
+= F^2_n -F_n-1 (F_n + F_n-1) 
+= F^2_n - F_n-1(F_n+1)
 
-If 𝑥,𝑦∈𝑉, then 𝑥−𝑦∈𝑉.
+Plug in to the original statement: 
+F_n*F_n+2 - F^2_n+1 = -(F_n-1F_n+1 - F^2_n) = -(-1)^n = (-1)^n+1
 
-If 𝑥∈𝑉, then every multiple of 𝑥 is an element of 𝑉.
-
-Prove that there is some 𝑑∈𝑉, such that 𝑉 is equal to the set of multiples of 𝑑. Hint: use the least element principle.
+Cassini's identity holds true. 
 
 NOT FINALIZED. ADVISORY. 
 -/
