@@ -52,35 +52,66 @@ Show that for every 𝑛, 0^2+1^2+2^2+…𝑛^2=16𝑛(1+𝑛)(1+2𝑛).
 -/
 
 
+def sqr : nat → nat
+| (nat.zero) := nat.zero
+| (nat.succ n') := ((nat.succ n') * (nat.succ n')) 
+
+def summed : ℕ → ℕ 
+| (nat.zero) := nat.zero                
+| (nat.succ n') := (summed n') + (sqr n'.succ) 
+
+def P : ℕ → Prop := 
+  λ n, summed n = (1/6) * (n * (1+n) * (1+2*n))
+
+theorem sum_of_n_sq : ∀ n, P n :=
+begin
+assume n,
+unfold P,
+induction n with n' ih_n',
+apply rfl,
+simp [summed],
+simp [sqr],  
+rw ih_n',              
+rw nat.succ_eq_add_one,
+ring,
+sorry, 
+-- by simple arithmetic
+
+end
+
+
+
 
 /-
 #2: Formal or detailed informal proofs 10-13
 
-Give an informal but detailed proof that for every natural number 𝑛, 1⋅𝑛=𝑛, using a proof by induction, the definition of multiplication, and the theorems proved in Section 17.4.
+10.Give an informal but detailed proof that for every natural number 𝑛, 1⋅𝑛=𝑛, using a proof by induction, the definition of multiplication, and the theorems proved in Section 17.4.
 
 By induction on n. 1 * 0 = 0 by the first defining clause for multiplication (m*0=0). 
 And assuming 1 * n=n, we have 1 * succ(n) = 1 * n + 1 by the second defining clause for multiplication (m * succ(n) = m * n + m). 
 
-Show that multiplication distributes over addition. In other words, prove that for natural numbers 𝑚, 𝑛, and 𝑘, 𝑚(𝑛+𝑘)=𝑚𝑛+𝑚𝑘. You should use the definitions of addition and multiplication and facts proved in Section 17.4 (but nothing more).
+11.Show that multiplication distributes over addition. In other words, prove that for natural numbers 𝑚, 𝑛, and 𝑘, 𝑚(𝑛+𝑘)=𝑚𝑛+𝑚𝑘. You should use the definitions of addition and multiplication and facts proved in Section 17.4 (but nothing more).
 
 For natural numbers 𝑚, 𝑛, and 𝑘,  𝑚(𝑛+𝑘)=𝑚𝑛+𝑚𝑘. 
 By induction on k. In the case where k=0, mn = mn. In the induction step, we have 
 m(n + succ(k)) = m (succ(n+k))
 = m * (n+k) + m 
 = mn  + mk + m 
+= mn + m (succ(k))
 using the inductive hypothesis, second defining clause of addition, and the second defining clause of multiplication. 
 
-Prove the multiplication is associative, in the same way. You can use any of the facts proved in Section 17.4 and the previous exercise.
+12.Prove the multiplication is associative, in the same way. You can use any of the facts proved in Section 17.4 and the previous exercise.
 
 For natural numbers m, n, and k, (𝑚𝑛)𝑘=𝑚(𝑛𝑘). 
 By induction on k. In the case where k = 0, 0=0 using the proposition in problem 10. In the induction step, we have
 (mn)succ(k) = mn * k + mn 
 = mnk + mn 
-= m (nk+1)
+= m (nk + n)
+= m (n * succ(k))
 using the inductive hypothesis, second defining clause of addition, and the second defining clause of multiplication. 
 
 
-Prove that multiplication is commutative.
+13.Prove that multiplication is commutative.
 
 For natural numbers n and m, 𝑚𝑛=𝑛𝑚. 
 By induction on n. The base case can by implied using the proposition in problem 10. In the induction step, we have
